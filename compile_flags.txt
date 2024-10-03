@@ -1,0 +1,11 @@
+-I/usr/local/Cellar/glfw/3.4/include/
+-I/usr/local/Cellar/glad/include
+-I/opt/homebrew/Cellar/glm/1.01/include/glm
+-I/opt/homebrew/include
+-Idependencies/glad/include
+-Idependencies/assimp/include
+-I/opt/homebrew/include/SDL2
+-std=c++17
+-I./dependencies/imgui
+-I./dependencies/imgui/backends
+

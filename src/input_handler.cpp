@@ -71,12 +71,12 @@ void InputHandler::update_mouse_buttons() {
 
 void InputHandler::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
-        /*if (Settings::cursor_enabled) {*/
-        /*    Settings::cursor_enabled = false;*/
-        /*}*/
-        /*else {*/
-        glfwSetWindowShouldClose(window, true);
-        /*}*/
+        if (Settings::cursor_enabled) {
+            Settings::cursor_enabled = false;
+        }
+        else {
+            glfwSetWindowShouldClose(window, true);
+        }
     }
 
     /*if (Globals::io->WantTextInput) {*/
@@ -89,9 +89,9 @@ void InputHandler::key_callback(GLFWwindow* window, int key, int scancode, int a
         Globals::renderer->reload_shaders();
     }
     // enable / disable cursor
-    /*if (key == GLFW_KEY_2 && action == GLFW_PRESS) {*/
-    /*    Settings::cursor_enabled = !Settings::cursor_enabled;*/
-    /*}*/
+    if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
+        Settings::cursor_enabled = !Settings::cursor_enabled;
+    }
 }
 
 void InputHandler::mouse_movement_callback(GLFWwindow* window, double posx, double posy) {

@@ -1,7 +1,9 @@
 #include <glad/glad.h>
+
 #include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
+#include <glm/gtc/noise.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "imgui.h"
@@ -77,6 +79,8 @@ int main() {
     Shader shader("shaders/base_model_shader.vert", "shaders/base_model_shader.frag");
     Model backpack_model("models/backpack/backpack.obj");
 
+    return 0;
+
     glEnable(GL_DEPTH_TEST);
 
     while (!glfwWindowShouldClose(window.data())) {
@@ -97,6 +101,13 @@ int main() {
         }
         else {
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        }
+
+        if (Settings::cursor_enabled) {
+            glfwSetInputMode(window.data(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        }
+        else {
+            glfwSetInputMode(window.data(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         }
 
         // start imgui frame

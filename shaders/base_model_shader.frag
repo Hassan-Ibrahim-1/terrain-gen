@@ -11,6 +11,7 @@ uniform Material material;
 // uniform bool test;
 
 void main() {
-    FragColor = texture(material.texture_diffuse1, tex_coords);
+    FragColor = vec4(1, 1, 1, 1);
+    // FragColor = texture(material.texture_diffuse1, tex_coords);
     // FragColor = vec4(1, 0, 0, 1);
 }

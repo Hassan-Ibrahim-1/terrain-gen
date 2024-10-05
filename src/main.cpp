@@ -13,6 +13,7 @@
 #include "error_handler.hpp"
 #include "input_handler.hpp"
 #include "renderer.hpp"
+#include "terrain.hpp"
 #include "utils.hpp"
 #include "window.hpp"
 #include "globals.hpp"
@@ -76,10 +77,10 @@ int main() {
     Camera& camera = Globals::camera;
     camera = Camera(glm::vec3(0.0f, 0.0f, 1.0f));
 
-    Shader shader("shaders/base_model_shader.vert", "shaders/base_model_shader.frag");
-    Model backpack_model("models/backpack/backpack.obj");
+    Terrain terrain;
+    terrain.generate();
 
-    return 0;
+    Shader& shader = renderer.shaders.base_model;
 
     glEnable(GL_DEPTH_TEST);
 
@@ -119,7 +120,7 @@ int main() {
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
         shader.use();
-        
+
         glm::mat4 projection = glm::perspective(glm::radians(camera.fov), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 1.1f, 100.0f);
         glm::mat4 view = camera.get_view_matrix();
         shader.set_mat4("projection", projection);
@@ -130,10 +131,14 @@ int main() {
         model = glm::scale(model, glm::vec3(1));
         shader.set_mat4("model", model);
 
-        backpack_model.draw(shader);
+        terrain.render();
+
+        /*backpack_model.draw(shader);*/
+
+        // view = glm::mat4(1);
+        // renderer.draw_rect(rect);
 
         renderer.set_view_matrix(view);
-
         renderer.render();
 
         // render imgui windows

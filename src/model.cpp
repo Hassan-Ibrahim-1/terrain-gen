@@ -13,7 +13,7 @@ Model::Model(const char* path) {
 
 void Model::draw(Shader& shader) {
     for (auto& mesh : _meshes) {
-        mesh.draw(shader);
+        mesh.render(shader);
     }
 }
 

@@ -1,7 +1,5 @@
-#include <cstddef>
 #include <glad/glad.h>
 #include "mesh.hpp"
-#include "texture2d.hpp"
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<uint> indices,
          std::vector<Texture2D> textures)
@@ -9,7 +7,20 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<uint> indices,
     init_mesh();
 }
 
-void Mesh::draw(Shader& shader) {
+void Mesh::load() {
+    init_mesh();
+}
+
+void Mesh::reset() {
+    glDeleteBuffers(1, &_vbo);
+    glDeleteBuffers(1, &_ebo);
+    glDeleteVertexArrays(1, &_vao);
+    vertices.clear();
+    indices.clear();
+    textures.clear();
+}
+
+void Mesh::render(Shader& shader, MeshRenderMode render_mode) {
     // Assumes that texture names are formatted as such in the shader:
     // material.texture_diffuse1
     // material.texture_diffuse2
@@ -35,8 +46,14 @@ void Mesh::draw(Shader& shader) {
         shader.set_int("material." + name + number, i);
         texture.bind();
     }
+    printf("RENDERING MESH\n");
     glBindVertexArray(_vao);
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    if (render_mode == MeshRenderMode::ARRAYS) {
+        glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+    }
+    else if (render_mode == MeshRenderMode::INDICES) {
+        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    }
     glBindVertexArray(0);
     glActiveTexture(GL_TEXTURE0);
 }

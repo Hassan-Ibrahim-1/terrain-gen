@@ -64,6 +64,7 @@ void Renderer::reload_shaders() {
     printf("Reloading shaders\n");
     shaders.point.reload();
     shaders.line.reload();
+    shaders.base_model.reload();
 }
 
 void Renderer::set_view_matrix(glm::mat4& view) {
@@ -202,6 +203,7 @@ void Renderer::update_vbos() {
 void Renderer::init_shaders() {
     shaders.point.load("shaders/point_shader.vert", "shaders/point_shader.frag");
     shaders.line.load("shaders/line_shader.vert", "shaders/line_shader.frag");
+    shaders.base_model.load("shaders/base_model_shader.vert", "shaders/base_model_shader.frag");
 
     if (ErrorHandler::had_error) {
         std::exit(-1);

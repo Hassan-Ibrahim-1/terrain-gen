@@ -19,6 +19,7 @@ public:
         Shaders() = default;
         Shader point;
         Shader line;
+        Shader base_model;
     } shaders;
 
     Renderer();

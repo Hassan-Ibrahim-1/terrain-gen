@@ -47,14 +47,12 @@ void Terrain::create_base_mesh(uint nvertices, const Rect& bounds) {
 
     float originalx = vert_t.position.x;
 
-    Utils::print_vec3(vert_t.position, "original position");
-    Utils::print_vec3(vert_t.scale, "scale");
-
     std::vector<Vertex> vertices;
     std::vector<uint> indices;
 
     for (size_t i = 0; i < nrows; i++) {
         for (size_t j = 0; j < ncols; j++) {
+            vert_t.position.y = Utils::noise(vert_t.position.x, vert_t.position.z);
             vertices.emplace_back(vert_t.position);
             vert_t.position.x += vert_t.scale.x;
         }

@@ -16,7 +16,7 @@ enum class CameraDirection {
 namespace CameraDefaults {
     constexpr float fov = 45.0f;
     const glm::vec2 sensitivity(0.1f, 0.1f);
-    constexpr float velocity = 7.0f;
+    constexpr float velocity = 10.0f;
     const Rotation rotation(-90.0f, 0.0f, 0.0f);
     const glm::vec3 front(0.0f, 0.0f, -1.0f);
 }

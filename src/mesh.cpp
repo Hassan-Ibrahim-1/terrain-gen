@@ -46,7 +46,6 @@ void Mesh::render(Shader& shader, MeshRenderMode render_mode) {
         shader.set_int("material." + name + number, i);
         texture.bind();
     }
-    printf("RENDERING MESH\n");
     glBindVertexArray(_vao);
     if (render_mode == MeshRenderMode::ARRAYS) {
         glDrawArrays(GL_TRIANGLES, 0, vertices.size());

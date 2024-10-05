@@ -19,7 +19,6 @@
 #include "globals.hpp"
 #include "settings.hpp"
 #include "camera.hpp"
-#include "model.hpp"
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
@@ -49,7 +48,7 @@ int main() {
 
     glfwSetKeyCallback(window.data(), InputHandler::key_callback);
     glfwSetCursorPosCallback(window.data(), InputHandler::mouse_movement_callback);
-    /*glfwSetScrollCallback(window.get_window(), InputHandler::mouse_scroll_callback);*/
+    glfwSetScrollCallback(window.data(), InputHandler::mouse_scroll_callback);
     glfwSetMouseButtonCallback(window.data(), InputHandler::mouse_button_callback);
 
     // Enable vsync
@@ -75,7 +74,7 @@ int main() {
     Globals::renderer = &renderer;
 
     Camera& camera = Globals::camera;
-    camera = Camera(glm::vec3(0.0f, 0.0f, 1.0f));
+    camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
     Terrain terrain;
     terrain.generate();
@@ -116,6 +115,11 @@ int main() {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
+        ImGui::Begin("info");
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
+                1000.0f / InputHandler::io->Framerate, InputHandler::io->Framerate);
+        ImGui::End();
+
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
@@ -132,11 +136,6 @@ int main() {
         shader.set_mat4("model", model);
 
         terrain.render();
-
-        /*backpack_model.draw(shader);*/
-
-        // view = glm::mat4(1);
-        // renderer.draw_rect(rect);
 
         renderer.set_view_matrix(view);
         renderer.render();

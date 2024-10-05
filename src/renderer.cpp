@@ -65,6 +65,8 @@ void Renderer::reload_shaders() {
     shaders.point.reload();
     shaders.line.reload();
     shaders.base_model.reload();
+    shaders.light_model.reload();
+    shaders.light_cube.reload();
 }
 
 void Renderer::set_view_matrix(glm::mat4& view) {
@@ -72,6 +74,12 @@ void Renderer::set_view_matrix(glm::mat4& view) {
     shaders.point.set_mat4("view", view);
     shaders.line.use();
     shaders.line.set_mat4("view", view);
+    shaders.base_model.use();
+    shaders.base_model.set_mat4("view", view);
+    shaders.light_model.use();
+    shaders.light_model.set_mat4("view", view);
+    shaders.light_cube.use();
+    shaders.light_cube.set_mat4("view", view);
 }
 
 void Renderer::render() {
@@ -204,6 +212,8 @@ void Renderer::init_shaders() {
     shaders.point.load("shaders/point_shader.vert", "shaders/point_shader.frag");
     shaders.line.load("shaders/line_shader.vert", "shaders/line_shader.frag");
     shaders.base_model.load("shaders/base_model_shader.vert", "shaders/base_model_shader.frag");
+    shaders.light_model.load("shaders/light_model_shader.vert", "shaders/light_model_shader.frag");
+    shaders.light_cube.load("shaders/light_cube_shader.vert", "shaders/light_cube_shader.frag");
 
     if (ErrorHandler::had_error) {
         std::exit(-1);

@@ -18,8 +18,9 @@ struct PointLight {
 
 struct Material {
     float shininess;
-    sampler2D texture_diffuse1;
-    sampler2D texture_specular1;
+    // sampler2D texture_diffuse1;
+    // sampler2D texture_specular1;
+    vec3 color;
 };
 
 vec3 calc_point_light(PointLight light, vec3 normal, vec3 frag_pos, vec3 view_dir);
@@ -46,13 +47,17 @@ vec3 calc_point_light(PointLight light, vec3 normal, vec3 frag_pos, vec3 view_di
     vec3 reflect_dir = reflect(-light_dir, normal);
     float spec = pow(max(dot(view_dir, reflect_dir), 0.0),
     material.shininess);
-
+    /*
     vec3 ambient = light.ambient * vec3(texture(material.texture_diffuse1,
     tex_coords));
     vec3 diffuse = light.diffuse * diff * vec3(texture(material.texture_diffuse1,
     tex_coords));
     vec3 specular = light.specular * spec * vec3(texture(material.texture_specular1,
     tex_coords));
+    */
+    vec3 ambient = light.ambient * material.color;
+    vec3 diffuse = light.diffuse * diff * material.color;
+    vec3 specular = light.specular * spec * material.color;
 
     // attenuation
     if (attenuation_enabled) {

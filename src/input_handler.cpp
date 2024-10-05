@@ -12,7 +12,7 @@ void InputHandler::process_input(GLFWwindow* window) {
     Camera& camera = Globals::camera;
     float delta_time = Globals::delta_time;
 
-    /*if (Globals::io->WantTextInput) return;*/
+    if (io->WantTextInput) return;
 
     if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
         camera.process_keyboard(CameraDirection::UP, delta_time);
@@ -79,9 +79,9 @@ void InputHandler::key_callback(GLFWwindow* window, int key, int scancode, int a
         }
     }
 
-    /*if (Globals::io->WantTextInput) {*/
-    /*    return;*/
-    /*}*/
+    if (io->WantTextInput) {
+        return;
+    }
     if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
         Settings::wireframe_enabled = !Settings::wireframe_enabled;
     }

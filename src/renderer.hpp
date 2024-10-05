@@ -20,6 +20,8 @@ public:
         Shader point;
         Shader line;
         Shader base_model;
+        Shader light_model;
+        Shader light_cube;
     } shaders;
 
     Renderer();

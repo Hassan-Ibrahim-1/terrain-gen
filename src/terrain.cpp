@@ -42,7 +42,6 @@ void Terrain::create_base_mesh(uint nvertices, const Rect& bounds) {
     vert_t.position.x += vert_t.scale.x / 2;
 
     vert_t.position.z = bounds.transform.scale.x + bounds.transform.position.z;
-    // NOTE: this might be +?
     vert_t.position.z -= vert_t.scale.z / 2;
 
     float originalx = vert_t.position.x;
@@ -74,8 +73,27 @@ void Terrain::create_base_mesh(uint nvertices, const Rect& bounds) {
             indices.push_back(bottom_left);
             indices.push_back(top_right);
             indices.push_back(bottom_right);
+
+            // Calculate normals
+            /*glm::vec3 normal = glm::normalize(*/
+            /*    glm::cross(vertices[top_right].position - vertices[top_left].position,*/
+            /*             vertices[bottom_left].position - vertices[top_left].position));*/
+            glm::vec3 normal =
+                glm::cross(vertices[top_right].position - vertices[top_left].position,
+                         vertices[bottom_left].position - vertices[top_left].position);
+            vertices[top_left].normal += normal;
+            vertices[top_right].normal += normal;
+            vertices[bottom_left].normal += normal;
+            /*vertices[top_left].normal = normal;*/
+            /*vertices[top_right].normal = normal;*/
+            /*vertices[bottom_left].normal = normal;*/
+            /*vertices[bottom_right].normal += normal;*/
         }
     }
+
+    /*for (auto& vertex : vertices) {*/
+    /*    vertex.normal = glm::normalize(vertex.normal);*/
+    /*}*/
 
     _mesh = Mesh(vertices, indices, {});
 }

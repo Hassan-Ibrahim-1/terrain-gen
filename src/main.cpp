@@ -23,6 +23,51 @@
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
 
+static float vertices[] = {
+     // positions         // normals           // texture coords
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+     0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
+};
+
 static void cleanup();
 
 int main() {
@@ -56,6 +101,22 @@ int main() {
 
     // imgui stuff
     const char* glsl_version = "#version 410";
+
+    // LIGHT CUBE VAO
+    uint light_vao = 0;
+    uint cube_vbo = 0;
+    glGenVertexArrays(1, &light_vao);
+    glBindVertexArray(light_vao);
+
+    glGenBuffers(1, &cube_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, cube_vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, false, sizeof(float) * 8, (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
     
     // imgui context
     ImGuiIO& io = Utils::create_imgui_context();
@@ -80,7 +141,18 @@ int main() {
     Terrain terrain;
     terrain.generate(100000, Rect(Transform(glm::vec3(0), glm::vec3(20, 0, 20.0f)), glm::vec4(1)));
 
-    Shader& shader = renderer.shaders.base_model;
+    Shader& shader = renderer.shaders.light_model;
+    Shader& light_cube_shader = renderer.shaders.light_cube;
+
+    glm::vec3 material_color(1);
+    glm::vec3 light_pos(glm::vec3(30, 5, 11));
+    glm::vec3 ambient = glm::vec4(0.2f, 0.2f, 0.2f, 1.0f);
+    glm::vec3 diffuse = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
+    glm::vec3 specular = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    bool attenuation_enabled = true;
+    float atten_const = 1;
+    float atten_linear = -0.08f;
+    float atten_quadratic = 0.002f;
 
     glEnable(GL_DEPTH_TEST);
 
@@ -116,10 +188,23 @@ int main() {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::Begin("info");
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
-                1000.0f / InputHandler::io->Framerate, InputHandler::io->Framerate);
-        ImGui::End();
+        if (Settings::cursor_enabled) {
+            ImGui::Begin("config");
+            ImGui::DragFloat3("light pos", (float*)&light_pos);
+            ImGui::ColorEdit3("light ambient", (float*)&ambient);
+            ImGui::ColorEdit3("light diffuse", (float*)&diffuse);
+            ImGui::ColorEdit3("light specular", (float*)&specular);
+            ImGui::ColorEdit3("material color", (float*)&material_color);
+            ImGui::Checkbox("attenuation", &attenuation_enabled);
+            if (attenuation_enabled) {
+                ImGui::DragFloat("attenuation constant", &atten_const, 0.01);
+                ImGui::DragFloat("attenuation linear", &atten_linear, 0.01);
+                ImGui::DragFloat("attenuation quadratic", &atten_quadratic, 0.01);
+            }
+            // fps
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+            ImGui::End();
+        }
 
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
@@ -136,7 +221,35 @@ int main() {
         model = glm::scale(model, glm::vec3(1));
         shader.set_mat4("model", model);
 
+        // LIGHTING
+        
+        std::string str = "pointlight";
+        shader.set_vec3(str + ".position", light_pos);
+        shader.set_vec3(str + ".ambient", ambient);
+        shader.set_vec3(str + ".diffuse", diffuse);
+        shader.set_vec3(str + ".specular", specular);
+        shader.set_float("material.shininess", 32.0f);
+        shader.set_vec3("material.color", material_color);
+        // attenuation values
+        shader.set_float(str + ".constant", atten_const);
+        shader.set_float(str + ".linear", atten_linear);
+        shader.set_float(str + ".quadratic", atten_quadratic);
+        shader.set_bool("attenuation_enabled", attenuation_enabled);
+
         terrain.render();
+
+
+        light_cube_shader.use();
+        light_cube_shader.set_vec3("light_color", 1, 1, 1);
+        light_cube_shader.set_mat4("projection", projection);
+        /*light_cube_shader.set_mat4("view", view);*/
+        glm::mat4 light_model(1.0f);
+        light_model = glm::translate(light_model, light_pos);
+        light_model = glm::scale(light_model, glm::vec3(1.f));
+        light_cube_shader.set_mat4("model", light_model);
+
+        glBindVertexArray(light_vao);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         renderer.set_view_matrix(view);
         renderer.render();

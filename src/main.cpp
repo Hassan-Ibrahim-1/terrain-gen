@@ -139,14 +139,14 @@ int main() {
     camera.set_rotation(0.0f, -35.0f);
 
     Terrain terrain;
-    terrain.generate(100000, Rect(Transform(glm::vec3(0), glm::vec3(20, 0, 20.0f)), glm::vec4(1)));
+    terrain.generate(1000, Rect(Transform(glm::vec3(0), glm::vec3(20, 0, 20.0f)), glm::vec4(1)));
 
     Shader& shader = renderer.shaders.light_model;
     Shader& light_cube_shader = renderer.shaders.light_cube;
 
     glm::vec3 material_color(1);
-    glm::vec3 light_pos(glm::vec3(30, 5, 11));
-    glm::vec3 ambient = glm::vec4(0.2f, 0.2f, 0.2f, 1.0f);
+    glm::vec3 light_pos(glm::vec3(30, 10, 11));
+    glm::vec3 ambient = glm::vec4(0.013f, 0.446f, 0.681f, 1);
     glm::vec3 diffuse = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
     glm::vec3 specular = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     bool attenuation_enabled = true;
@@ -242,16 +242,16 @@ int main() {
         light_cube_shader.use();
         light_cube_shader.set_vec3("light_color", 1, 1, 1);
         light_cube_shader.set_mat4("projection", projection);
-        /*light_cube_shader.set_mat4("view", view);*/
         glm::mat4 light_model(1.0f);
         light_model = glm::translate(light_model, light_pos);
         light_model = glm::scale(light_model, glm::vec3(1.f));
         light_cube_shader.set_mat4("model", light_model);
 
+        renderer.set_view_matrix(view);
+
         glBindVertexArray(light_vao);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        renderer.set_view_matrix(view);
         renderer.render();
 
         // render imgui windows

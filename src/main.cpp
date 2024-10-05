@@ -74,10 +74,11 @@ int main() {
     Globals::renderer = &renderer;
 
     Camera& camera = Globals::camera;
-    camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f));
+    camera = Camera(glm::vec3(5, 16, 11));
+    camera.set_rotation(0.0f, -35.0f);
 
     Terrain terrain;
-    terrain.generate();
+    terrain.generate(100000, Rect(Transform(glm::vec3(0), glm::vec3(20, 0, 20.0f)), glm::vec4(1)));
 
     Shader& shader = renderer.shaders.base_model;
 

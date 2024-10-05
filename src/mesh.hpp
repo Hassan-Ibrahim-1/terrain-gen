@@ -18,8 +18,8 @@ public:
     std::vector<Texture2D> textures;
 
     Mesh() = default;
-    Mesh(std::vector<Vertex> vertices, std::vector<uint> indices,
-         std::vector<Texture2D> textures);
+    Mesh(const std::vector<Vertex>& vertices, const std::vector<uint>& indices,
+         const std::vector<Texture2D>& textures);
     
     void load();
     void reset();

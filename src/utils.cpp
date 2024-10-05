@@ -2,10 +2,9 @@
 
 #include "utils.hpp"
 #include "input_handler.hpp"
-#include "globals.hpp"
 
 void Utils::init() {
-    srand (static_cast<unsigned> (time(0)));
+    srand(static_cast<unsigned> (time(0)));
 }
 
 glm::vec3 Utils::imvec4_to_glm_vec3(ImVec4& vec) {
@@ -27,6 +26,10 @@ ImGuiIO& Utils::create_imgui_context() {
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
     return io;
+}
+
+void Utils::print_vec3(const glm::vec3& v, const std::string& msg) {
+    printf("%s: (%f, %f, %f)\n", msg.c_str(), v.x, v.y, v.z);
 }
 
 float Utils::random_float(float min, float max) {

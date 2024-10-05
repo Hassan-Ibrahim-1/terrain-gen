@@ -1,23 +1,84 @@
 #include "globals.hpp"
 #include "mesh.hpp"
+#include "utils.hpp"
+#include <numeric>
+#include <strings.h>
 #include "terrain.hpp"
 
-Terrain::Terrain() : _mesh() {}
+Terrain::Terrain() {}
 
-void Terrain::generate() {
-    std::vector<Vertex> vertices = {
-        glm::vec3(0.0f, 0.5f, 0.0f),
-        glm::vec3(0.5f, -0.5f, 0.0f),
-        glm::vec3(-0.5f, -0.5f, 0.0f)
-    };
-    _mesh = Mesh(vertices, {}, {});
-    /*_mesh.vertices = vertices;*/
-    /*_mesh.load();*/
-    /* 0.5f, -0.5f, 0.0f, // bottom right*/
-    /*-0.5f, -0.5f, 0.0f, // bottom left*/
+void Terrain::generate(uint nvertices, const Rect& bounds) {
+    create_base_mesh(nvertices, bounds);
 }
 
 void Terrain::render() {
-    _mesh.render(Globals::renderer->shaders.base_model, MeshRenderMode::ARRAYS);
+    _mesh.render(Globals::renderer->shaders.base_model, MeshRenderMode::INDICES);
+}
+
+void Terrain::create_base_mesh(uint nvertices, const Rect& bounds) {
+    uint f1 = (uint) glm::sqrt(nvertices);
+    while (nvertices % f1 != 0) {
+        f1--;
+    }
+    uint f2 = nvertices / f1;
+
+    uint nrows = 0;
+    uint ncols = 0;
+
+    if (bounds.transform.scale.x > bounds.transform.scale.z) {
+        nrows = f1 - 1;
+        ncols = f2 - 1;
+    }
+    else {
+        nrows = f2 - 1;
+        ncols = f1 - 1;
+    }
+
+    Transform vert_t;
+    vert_t.scale.x = bounds.transform.scale.x / ncols;
+    vert_t.scale.z = bounds.transform.scale.z / nrows;
+
+    vert_t.position.x = bounds.transform.scale.x + bounds.transform.position.x;
+    vert_t.position.x += vert_t.scale.x / 2;
+
+    vert_t.position.z = bounds.transform.scale.x + bounds.transform.position.z;
+    // NOTE: this might be +?
+    vert_t.position.z -= vert_t.scale.z / 2;
+
+    float originalx = vert_t.position.x;
+
+    Utils::print_vec3(vert_t.position, "original position");
+    Utils::print_vec3(vert_t.scale, "scale");
+
+    std::vector<Vertex> vertices;
+    std::vector<uint> indices;
+
+    for (size_t i = 0; i < nrows; i++) {
+        for (size_t j = 0; j < ncols; j++) {
+            vertices.emplace_back(vert_t.position);
+            vert_t.position.x += vert_t.scale.x;
+        }
+        vert_t.position.x = originalx;
+        vert_t.position.z -= vert_t.scale.z;
+    }
+
+    for (size_t j = 0; j < nrows - 1; j++) {
+        for (size_t i = 0; i < ncols - 1; i++) {
+            size_t top_left = j * ncols + i;
+            size_t top_right = top_left + 1;
+            size_t bottom_left = top_left + ncols;
+            size_t bottom_right = bottom_left + 1;
+
+            indices.push_back(top_left);
+            indices.push_back(top_right);
+            indices.push_back(bottom_left);
+
+            indices.push_back(bottom_left);
+            indices.push_back(top_right);
+            indices.push_back(bottom_right);
+        }
+    }
+
+    _mesh = Mesh(vertices, indices, {});
 }
 

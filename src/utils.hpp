@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <string>
 #include "imgui.h"
 
 #include "transform.hpp"
@@ -15,6 +16,8 @@ glm::vec4 imvec4_to_glm_vec4(ImVec4& vec);
 
 ImVec4 glm_vec3_to_imvec4(glm::vec3& vec);
 ImGuiIO& create_imgui_context();
+
+void print_vec3(const glm::vec3& v, const std::string& msg = "");
 
 float random_float(float min, float max);
 

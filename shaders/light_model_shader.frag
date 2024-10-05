@@ -5,6 +5,7 @@ out vec4 FragColor;
 in vec3 normal;
 in vec2 tex_coords;
 in vec3 frag_pos;
+in vec3 color;
 
 struct PointLight {
     vec3 position;
@@ -20,7 +21,6 @@ struct Material {
     float shininess;
     // sampler2D texture_diffuse1;
     // sampler2D texture_specular1;
-    vec3 color;
 };
 
 vec3 calc_point_light(PointLight light, vec3 normal, vec3 frag_pos, vec3 view_dir);
@@ -55,9 +55,9 @@ vec3 calc_point_light(PointLight light, vec3 normal, vec3 frag_pos, vec3 view_di
     vec3 specular = light.specular * spec * vec3(texture(material.texture_specular1,
     tex_coords));
     */
-    vec3 ambient = light.ambient * material.color;
-    vec3 diffuse = light.diffuse * diff * material.color;
-    vec3 specular = light.specular * spec * material.color;
+    vec3 ambient = light.ambient * color;
+    vec3 diffuse = light.diffuse * diff * color;
+    vec3 specular = light.specular * spec * color;
 
     // attenuation
     if (attenuation_enabled) {

@@ -54,8 +54,15 @@ void Terrain::create_base_mesh(uint nvertices, const Rect& bounds) {
         for (size_t j = 0; j < ncols; j++) {
             /*vert_t.position.y = Utils::noise(vert_t.position.x, vert_t.position.z);*/
             vert_t.position.y = glm::perlin(glm::vec2(vert_t.position.x, vert_t.position.z));
+            glm::vec3 color(1);
+            if (vert_t.position.y < _color_boundary) {
+                color = _color_low;
+            }
+            else {
+                color = _color_high;
+            }
             /*vert_t.position.y = glm::simplex(glm::vec2(vert_t.position.x, vert_t.position.z));*/
-            vertices.emplace_back(vert_t.position);
+            vertices.emplace_back(vert_t.position, glm::vec3(0), glm::vec2(0), color);
             vert_t.position.x += vert_t.scale.x;
         }
         vert_t.position.x = originalx;

@@ -146,7 +146,8 @@ int main() {
 
     glm::vec3 material_color(1);
     glm::vec3 light_pos(glm::vec3(50, 10, 11));
-    glm::vec3 ambient = glm::vec4(0.013f, 0.446f, 0.681f, 1);
+    /*glm::vec3 ambient = glm::vec4(0.2f, 0.2f, 0.2f, 1.0f);*/
+    glm::vec3 ambient = glm::vec3(1);
     glm::vec3 diffuse = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
     glm::vec3 specular = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     bool attenuation_enabled = true;
@@ -229,7 +230,7 @@ int main() {
         shader.set_vec3(str + ".diffuse", diffuse);
         shader.set_vec3(str + ".specular", specular);
         shader.set_float("material.shininess", 32.0f);
-        shader.set_vec3("material.color", material_color);
+        /*shader.set_vec3("material.color", material_color);*/
         // attenuation values
         shader.set_float(str + ".constant", atten_const);
         shader.set_float(str + ".linear", atten_linear);

@@ -135,17 +135,17 @@ int main() {
     Globals::renderer = &renderer;
 
     Camera& camera = Globals::camera;
-    camera = Camera(glm::vec3(5, 16, 11));
+    camera = Camera(glm::vec3(20, 16, 20));
     camera.set_rotation(0.0f, -35.0f);
 
     Terrain terrain;
-    terrain.generate(1000, Rect(Transform(glm::vec3(0), glm::vec3(20, 0, 20.0f)), glm::vec4(1)));
+    terrain.generate(100000, Rect(Transform(glm::vec3(0), glm::vec3(40, 0, 40.0f)), glm::vec4(1)));
 
     Shader& shader = renderer.shaders.light_model;
     Shader& light_cube_shader = renderer.shaders.light_cube;
 
     glm::vec3 material_color(1);
-    glm::vec3 light_pos(glm::vec3(30, 10, 11));
+    glm::vec3 light_pos(glm::vec3(50, 10, 11));
     glm::vec3 ambient = glm::vec4(0.013f, 0.446f, 0.681f, 1);
     glm::vec3 diffuse = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
     glm::vec3 specular = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);

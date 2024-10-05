@@ -3,6 +3,7 @@
 #include "utils.hpp"
 #include <numeric>
 #include <strings.h>
+#include <glm/gtc/noise.hpp>
 #include "terrain.hpp"
 
 Terrain::Terrain() {}
@@ -51,7 +52,9 @@ void Terrain::create_base_mesh(uint nvertices, const Rect& bounds) {
 
     for (size_t i = 0; i < nrows; i++) {
         for (size_t j = 0; j < ncols; j++) {
-            vert_t.position.y = Utils::noise(vert_t.position.x, vert_t.position.z);
+            /*vert_t.position.y = Utils::noise(vert_t.position.x, vert_t.position.z);*/
+            vert_t.position.y = glm::perlin(glm::vec2(vert_t.position.x, vert_t.position.z));
+            /*vert_t.position.y = glm::simplex(glm::vec2(vert_t.position.x, vert_t.position.z));*/
             vertices.emplace_back(vert_t.position);
             vert_t.position.x += vert_t.scale.x;
         }

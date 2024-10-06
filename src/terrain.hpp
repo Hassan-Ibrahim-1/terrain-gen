@@ -12,7 +12,7 @@ public:
 private:
     Mesh _mesh;
 
-    static constexpr float _color_boundary = 0.0f;
+    static constexpr float _color_boundary = 0.2f;
     static constexpr glm::vec3 _color_low = glm::vec3(0.358, 0.254, 0.037);
     static constexpr glm::vec3 _color_high = glm::vec3(0.235, 0.863, 0.216);
 

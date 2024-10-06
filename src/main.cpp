@@ -139,7 +139,7 @@ int main() {
     camera.set_rotation(0.0f, -35.0f);
 
     Terrain terrain;
-    terrain.generate(100000, Rect(Transform(glm::vec3(0), glm::vec3(40, 0, 40.0f)), glm::vec4(1)));
+    terrain.generate(100000, Rect(Transform(glm::vec3(0), glm::vec3(60, 0, 60.0f)), glm::vec4(1)));
 
     Shader& shader = renderer.shaders.light_model;
     Shader& light_cube_shader = renderer.shaders.light_cube;
@@ -228,7 +228,7 @@ int main() {
         shader.set_vec3(str + ".ambient", ambient);
         shader.set_vec3(str + ".diffuse", diffuse);
         shader.set_vec3(str + ".specular", specular);
-        shader.set_float("material.shininess", 32.0f);
+        shader.set_float("material.shininess", 256.0f);
         shader.set_float(str + ".constant", atten_const);
         shader.set_float(str + ".linear", atten_linear);
         shader.set_float(str + ".quadratic", atten_quadratic);

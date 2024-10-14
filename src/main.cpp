@@ -139,7 +139,7 @@ int main() {
     camera.set_rotation(0.0f, -35.0f);
 
     Terrain terrain;
-    terrain.generate(100000, Rect(Transform(glm::vec3(0), glm::vec3(60, 0, 60.0f)), glm::vec4(1)));
+    terrain.generate(1000000, Rect(Transform(glm::vec3(0), glm::vec3(60, 0, 60.0f)), glm::vec4(1)));
 
     Shader& shader = renderer.shaders.light_model;
     Shader& light_cube_shader = renderer.shaders.light_cube;

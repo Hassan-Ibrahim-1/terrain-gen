@@ -26,6 +26,10 @@ struct Material {
 vec3 calc_point_light(PointLight light, vec3 normal, vec3 frag_pos, vec3 view_dir);
 
 uniform Material material;
+
+#define N_LIGHTS 4
+
+uniform PointLight pointlights[N_LIGHTS];
 uniform PointLight pointlight;
 uniform bool attenuation_enabled;
 // uniform bool test;
@@ -68,6 +72,6 @@ vec3 calc_point_light(PointLight light, vec3 normal, vec3 frag_pos, vec3 view_di
         diffuse *= attenuation;
         specular *= attenuation;
     }
-    return (ambient + diffuse + specular);
+    return (ambient + diffuse);
 }
 

@@ -1,5 +1,6 @@
 #include <strings.h>
 #include <glm/gtc/noise.hpp>
+#include "utils.hpp"
 #include "globals.hpp"
 #include "mesh.hpp"
 #include "terrain.hpp"
@@ -50,9 +51,19 @@ void Terrain::create_base_mesh(uint nvertices, const Rect& bounds) {
 
     for (size_t i = 0; i < nrows; i++) {
         for (size_t j = 0; j < ncols; j++) {
-            /*vert_t.position.y = Utils::noise(vert_t.position.x, vert_t.position.z);*/
-            vert_t.position.y = glm::perlin(glm::vec2(vert_t.position.x / 2, vert_t.position.z / 2));
-            /*vert_t.position.y = glm::simplex(glm::vec2(vert_t.position.x, vert_t.position.z));*/
+            if (i > 500) {
+                if (i - 500 > 20) {
+                    vert_t.position.y = glm::simplex(glm::vec2(vert_t.position.x, vert_t.position.z));
+                }
+            }
+            else {
+                if (j > 500) {
+                    vert_t.position.y = Utils::noise(vert_t.position.x, vert_t.position.z);
+                }
+                else {
+                    vert_t.position.y = glm::perlin(glm::vec2(vert_t.position.x / 2, vert_t.position.z / 2));
+                }
+            }
             glm::vec3 color(1);
             if (vert_t.position.y < _color_boundary) {
                 color = _color_low;

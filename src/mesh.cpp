@@ -51,7 +51,7 @@ void Mesh::render(Shader& shader, MeshRenderMode render_mode) {
         glDrawArrays(GL_TRIANGLES, 0, vertices.size());
     }
     else if (render_mode == MeshRenderMode::INDICES) {
-        glDrawElements(GL_POINTS, indices.size(), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     }
     glBindVertexArray(0);
     glActiveTexture(GL_TEXTURE0);

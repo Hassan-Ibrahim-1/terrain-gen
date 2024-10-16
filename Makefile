@@ -17,6 +17,8 @@ LD = clang++
 CFLAGS = -Wall -W -O3 -D_THREAD_SAFE -I/opt/homebrew/include -I/opt/homebrew/Cellar/glfw/3.4/include -I$(GLADPATH)
 # C++ flags
 
+NOISE = dependencies/noise/
+
 ASSIMP_INCLUDE = dependencies/assimp/include/
 ASSIMP_LIBS = dependencies/assimp/bin/
 
@@ -27,7 +29,7 @@ GLLIBS = -L/opt/homebrew/Cellar/glfw/3.4/lib -lglfw -framework Cocoa -framework 
 # CXXFLAGS = -Wall -W -O3 -D_THREAD_SAFE -I/opt/homebrew/include -I/opt/homebrew/Cellar/glfw/3.4/include --std=c++17 $(GLADPATH) -I/opt/homebrew/Cellar/glm/1.01/include/glm
 IMGUI_DIR = dependencies/imgui
 CXXFLAGS = -Wall -W --debug -g -D_THREAD_SAFE -I/opt/homebrew/include -I/opt/homebrew/Cellar/glfw/3.4/include --std=c++17 -I$(GLADPATH) -I$(STBPATH) -I/opt/homebrew/Cellar/glm/1.01/include/glm -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends -I$(ASSIMP_INCLUDE)
-CXXFLAGS = -Wall -W -O3 -D_THREAD_SAFE -I/opt/homebrew/include -I/opt/homebrew/Cellar/glfw/3.4/include --std=c++17 -I$(GLADPATH) -I$(STBPATH) -I/opt/homebrew/Cellar/glm/1.01/include/glm -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends -I$(ASSIMP_INCLUDE)
+CXXFLAGS = -Wall -W -O3 -D_THREAD_SAFE -I/opt/homebrew/include -I/opt/homebrew/Cellar/glfw/3.4/include --std=c++17 -I$(GLADPATH) -I$(STBPATH) -I/opt/homebrew/Cellar/glm/1.01/include/glm -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends -I$(ASSIMP_INCLUDE) -I$(NOISE)
 # C/C++ flags
 CPPFLAGS = -Wall
 # dependency-generation flags

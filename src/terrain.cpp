@@ -1,9 +1,11 @@
 #include <strings.h>
 #include <glm/gtc/noise.hpp>
+#include <glm/gtc/random.hpp>
 #include "utils.hpp"
 #include "globals.hpp"
 #include "mesh.hpp"
 #include "terrain.hpp"
+#include "SimplexNoise.hpp"
 
 Terrain::Terrain() {}
 
@@ -49,21 +51,31 @@ void Terrain::create_base_mesh(uint nvertices, const Rect& bounds) {
     std::vector<Vertex> vertices;
     std::vector<uint> indices;
 
+    constexpr float scale = 0.007f;
+    SimplexNoise n(
+        scale,
+        1,
+        2,
+        0.5f
+    );
+
     for (size_t i = 0; i < nrows; i++) {
         for (size_t j = 0; j < ncols; j++) {
-            if (i > 500) {
-                if (i - 500 > 20) {
-                    vert_t.position.y = glm::simplex(glm::vec2(vert_t.position.x, vert_t.position.z));
-                }
-            }
-            else {
-                if (j > 500) {
-                    vert_t.position.y = Utils::noise(vert_t.position.x, vert_t.position.z);
-                }
-                else {
-                    vert_t.position.y = glm::perlin(glm::vec2(vert_t.position.x / 2, vert_t.position.z / 2));
-                }
-            }
+            /*if (i > 500) {*/
+            /*    if (i - 500 > 20) {*/
+            /*        vert_t.position.y = glm::simplex(glm::vec2(vert_t.position.x, vert_t.position.z));*/
+            /*        // vert_t.position.y = glm::sphericalRand(vert_t.position.x + vert_t.position.z).y;*/
+            /*        vert_t.position.y = Utils::random_float(vert_t.position.x, vert_t.position.z);*/
+            /*    }*/
+            /*}*/
+            /*else if (j < 500){*/
+            /*    vert_t.position.y = Utils::noise(vert_t.position.x, vert_t.position.z);*/
+            /*}*/
+            /*else {*/
+            /*    vert_t.position.y = glm::perlin(glm::vec2(vert_t.position.x / 2, vert_t.position.z / 2));*/
+            /*}*/
+            vert_t.position.y = n.fractal(16, j, i) * 2;
+
             glm::vec3 color(1);
             if (vert_t.position.y < _color_boundary) {
                 color = _color_low;
